@@ -1,0 +1,11 @@
+[project]
+name = "shard-clipboard"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi[standard]>=0.116.1",
+    "pyperclip>=1.9.0",
+    "uvicorn>=0.35.0",
+]
