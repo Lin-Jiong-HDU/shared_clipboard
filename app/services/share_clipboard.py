@@ -11,16 +11,17 @@ class SharedClipboard:
         self.clipboard_content: Optional[str] = None
         self.clipboard_content_history: list[str] = []
 
-    async def set_shared_clipboard_content(self, device_clipboard_content: str) -> Optional[str]:
+    def set_shared_clipboard_content(self, device_clipboard_content: str) -> Optional[str]:
         """Set the shared clipboard content."""
         if self.clipboard_content is None:
             try:
                 self.clipboard_content = device_clipboard_content
+                self.clipboard_content_history.append(device_clipboard_content)
             except BaseException as e:
                 print(f"Error accessing clipboard: {e}")
                 raise RuntimeError('Error accessing clipboard') from e
         else:
-            if self.get_shared_clipboard_conunt() < 64:
+            if self.get_shared_clipboard_count() < 64:
                 self.clipboard_content_history.append(self.clipboard_content)
                 self.clipboard_content = device_clipboard_content
             else:
@@ -39,7 +40,7 @@ class SharedClipboard:
 #             print(f"Error setting clipboard content: {e}")
 #             raise RuntimeError('Error setting clipboard content') from e
 
-    def get_shared_clipboard_conunt(self) -> int:
+    def get_shared_clipboard_count(self) -> int:
         """Return the current clipboard content."""
         return len(self.clipboard_content_history)
 
@@ -68,3 +69,22 @@ class SharedClipboardService:
             del self.shared_clipboard_instances[device_id]
             return "Shared clipboard instance removed"
         return "Device ID not found"
+    
+    def set_shared_clipboard_isnstance(self, device_id: Optional[str], content: str) -> Optional[str]:
+        """Set the shared clipboard content for a specific device ID or all devices."""
+        if device_id:
+            instance = self.get_shared_clipboard_instance(device_id)
+            if instance:
+                instance.set_shared_clipboard_content(content) 
+                return "Shared clipboard content set for {device_id}"
+            return "Device ID not found"
+        else:
+            for instance in self.shared_clipboard_instances.values():
+                instance.set_shared_clipboard_content(content)
+            return "Shared clipboard content set for all devices"
+
+    def get_device_count(self) -> int:
+        """Return the number of devices with shared clipboard instances."""
+        return len(self.shared_clipboard_instances)
+
+shared_clipboard_service = SharedClipboardService()
