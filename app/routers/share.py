@@ -6,4 +6,5 @@ import platform
 
 from datetime import datetime
 from app.schemas.base import BaseRequest, BaseResponse, BaseModel
-from app.services.share_clipboard
+from app.services.share_clipboard import shared_clipboard_service
+
