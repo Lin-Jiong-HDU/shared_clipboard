@@ -16,6 +16,7 @@ class BaseRequest(BaseModel):
     request_id: UUID = Field(..., description="请求的唯一标识符")
     devices_id: str = Field(..., description="设备ID")
     timestamp: datetime = Field(default_factory=datetime.now, description="请求时间戳")
+    data: Optional[Any] = Field(None, description="数据")
 
 class ErrorResponse(BaseModel):
     """错误响应类型"""

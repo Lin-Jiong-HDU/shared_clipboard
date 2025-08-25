@@ -56,14 +56,14 @@ class SharedClipboardService:
             self.shared_clipboard_instances[device_id] = SharedClipboard(device_id)
         return self.shared_clipboard_instances[device_id]
 
-    def create_shared_clipboard_instance(self, device_id: str) -> Optional[str]:
+    def create_shared_clipboard_instance(self, device_id: str) -> str:
         """Create a new SharedClipboard instance with a unique device ID."""
         if device_id in self.shared_clipboard_instances:
             return "Device ID already exists"
         self.shared_clipboard_instances[device_id] = SharedClipboard(device_id)
         return "Shared clipboard instance created"
 
-    def remove_shared_clipboard_instance(self, device_id: str) -> Optional[str]:
+    def remove_shared_clipboard_instance(self, device_id: str) -> str:
         """Remove the SharedClipboard instance for the given device ID."""
         if device_id in self.shared_clipboard_instances:
             del self.shared_clipboard_instances[device_id]
