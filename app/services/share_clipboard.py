@@ -70,7 +70,7 @@ class SharedClipboardService:
             return "Shared clipboard instance removed"
         return "Device ID not found"
     
-    def set_shared_clipboard_isnstance(self, device_id: Optional[str], content: str) -> Optional[str]:
+    def set_shared_clipboard_isnstance(self, device_id: Optional[str], content: str) -> str:
         """Set the shared clipboard content for a specific device ID or all devices."""
         if device_id:
             instance = self.get_shared_clipboard_instance(device_id)

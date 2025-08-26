@@ -74,3 +74,19 @@ async def get_device_count():
 
 @router.post("/shared_clipboard/set", response_model=BaseResponse)
 async def set_shared_clipboard(request: BaseRequest):
+    """设置共享剪贴板内容，可以选择设置某个设备ID的内容，或者全部设备的内容"""
+    try:
+        if not request.data or not isinstance(request.data, dict) or 'content' not in request.data:
+            raise HTTPException(status_code=400, detail="Invalid data format. 'content' field is required.")
+        content = request.data['content']
+        device_id = request.devices_id if request.devices_id else None
+        message = shared_clipboard_service.set_shared_clipboard_isnstance(device_id, content)
+        if message == "Device ID not found":
+            raise HTTPException(status_code=404, detail=message)
+        return BaseResponse(
+            success=True,
+            timestamp=datatime.now(),
+            message=message
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
