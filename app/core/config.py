@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     # Base settings
     app_name: str = Field(default="SharedClipboard", description="Name of the application")
     app_version: str = Field(default="1.0.0", description="Version of the application")
-    debug: bool = Field(default=False, description="Enable debug mode")
+    debug: bool = Field(default=True, description="Enable debug mode")
 
     # Logging settings
     log_level: str = Field(default="INFO", description="Logging level")

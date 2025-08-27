@@ -90,3 +90,12 @@ async def set_shared_clipboard(request: BaseRequest):
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/health", response_model=BaseResponse)
+async def health_check():
+    """健康检查接口"""
+    return BaseResponse(
+        success=True,
+        timestamp=datatime.now(),
+        message="Service is healthy"
+    )

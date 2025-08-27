@@ -14,7 +14,7 @@ class BaseResponse(BaseModel):
 class BaseRequest(BaseModel):
     """基础请求类型"""
     request_id: UUID = Field(..., description="请求的唯一标识符")
-    devices_id: str = Field(..., description="设备ID")
+    devices_id: Optional[str] = Field(..., description="设备ID")
     timestamp: datetime = Field(default_factory=datetime.now, description="请求时间戳")
     data: Optional[Any] = Field(None, description="数据")
 
