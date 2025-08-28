@@ -49,6 +49,7 @@ class SharedClipboardService:
 
     def __init__(self):
         self.shared_clipboard_instances: dict[str, SharedClipboard] = {}
+        self.shared_clipboard_instances["public_clipboard"] = SharedClipboard("public_clipboard")
 
     def get_shared_clipboard_instance(self, device_id: str) -> Optional[SharedClipboard]:
         """Get or create a SharedClipboard instance for the given device ID."""
@@ -85,6 +86,6 @@ class SharedClipboardService:
 
     def get_device_count(self) -> int:
         """Return the number of devices with shared clipboard instances."""
-        return len(self.shared_clipboard_instances)
+        return len(self.shared_clipboard_instances) - 1
 
 shared_clipboard_service = SharedClipboardService()

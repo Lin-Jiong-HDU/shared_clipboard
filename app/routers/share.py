@@ -93,6 +93,23 @@ async def set_shared_clipboard(request: BaseRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@router.get("/share_clipboard/sync", response_model=BaseResponse)
+async def sync_shared_clipboard():
+    """向发起请求的设别同步最新的共享剪贴板内容"""
+    try:
+        instance = shared_clipboard_service.get_shared_clipboard_instance("public_clipboard")
+        if not instance:
+            raise HTTPException(status_code=404, detail="Public clipboard instance not found")
+        content = instance.clipboard_content
+        return BaseResponse(
+            success=True,
+            timestamp=datatime.now(),
+            message="获取成功",
+            data={"content": content}
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @router.get("/health", response_model=BaseResponse)
 async def health_check():
     """健康检查接口"""
