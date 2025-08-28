@@ -14,7 +14,7 @@ router = APIRouter(prefix="/share", tags=["共享剪贴板"])
 async def create_shared_clipboard(request: BaseRequest):
     """在服务端创建共享剪贴板实例"""
     try:
-        message = shared_clipboard_service.create_shared_clipboard_instance(request.devices_id)
+        message = shared_clipboard_service.create_shared_clipboard_instance(request.devices_id) #Ignore type checker
         if message == "Device ID already exists":
             raise HTTPException(status_code=400, detail=message)
         return BaseResponse(
@@ -79,7 +79,9 @@ async def set_shared_clipboard(request: BaseRequest):
         if not request.data or not isinstance(request.data, dict) or 'content' not in request.data:
             raise HTTPException(status_code=400, detail="Invalid data format. 'content' field is required.")
         content = request.data['content']
+        print(f"Setting shared clipboard content: {content}")
         device_id = request.devices_id if request.devices_id else None
+        print(f"Device ID: {device_id}")
         message = shared_clipboard_service.set_shared_clipboard_isnstance(device_id, content)
         if message == "Device ID not found":
             raise HTTPException(status_code=404, detail=message)
