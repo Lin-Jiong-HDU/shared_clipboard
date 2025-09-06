@@ -79,9 +79,7 @@ async def set_shared_clipboard(request: BaseRequest):
         if not request.data or not isinstance(request.data, dict) or 'content' not in request.data:
             raise HTTPException(status_code=400, detail="Invalid data format. 'content' field is required.")
         content = request.data['content']
-        print(f"Setting shared clipboard content: {content}")
         device_id = request.devices_id if request.devices_id else None
-        print(f"Device ID: {device_id}")
         message = shared_clipboard_service.set_shared_clipboard_isnstance(device_id, content)
         if message == "Device ID not found":
             raise HTTPException(status_code=404, detail=message)
@@ -93,7 +91,7 @@ async def set_shared_clipboard(request: BaseRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.get("/share_clipboard/sync", response_model=BaseResponse)
+@router.get("/shared_clipboard/sync", response_model=BaseResponse)
 async def sync_shared_clipboard():
     """向发起请求的设别同步最新的共享剪贴板内容"""
     try:
