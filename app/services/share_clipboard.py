@@ -77,7 +77,7 @@ class SharedClipboardService:
             instance = self.get_shared_clipboard_instance(device_id)
             if instance:
                 instance.set_shared_clipboard_content(content) 
-                return "Shared clipboard content set for {device_id}"
+                return "Shared clipboard content set for " + device_id
             return "Device ID not found"
         else:
             for instance in self.shared_clipboard_instances.values():
